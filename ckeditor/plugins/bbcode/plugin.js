@@ -1,1 +1,806 @@
-﻿!function(){function e(e){var t="";for(var n in e){var i=e[n],r=(n+":"+i).replace(l,";");t+=r}return t}CKEDITOR.on("dialogDefinition",function(e){var t,n=e.data.name,i=e.data.definition;"link"==n?(i.removeContents("target"),i.removeContents("upload"),i.removeContents("advanced"),t=i.getContents("info"),t.remove("emailSubject"),t.remove("emailBody")):"image"==n?(i.removeContents("advanced"),t=i.getContents("Link"),t.remove("cmbTarget"),t=i.getContents("info"),t.remove("txtAlt"),t.remove("basic")):"table"==n&&(t=i.getContents("info"),t.remove("selHeaders"),t.remove("txtWidth"),t.remove("txtHeight"),t.remove("txtBorder"),t.remove("cmbAlign"),t.remove("txtCellSpace"),t.remove("txtCellPad"),t.remove("txtCaption"),t.remove("txtSummary"))});var t={b:"strong",u:"u",hr:"hr",i:"em",table:"table",tr:"tr",td:"td",th:"th",sub:"sub",sup:"sup",s:"strike",color:"span",font:"span",align:"p",size:"span",quote:"blockquote",code:"code",php:"pre",url:"a",email:"span",img:"span","*":"li",list:"ol"},n={strong:"b",b:"b",u:"u",sub:"sub",sup:"sup",em:"i",table:"table",tr:"tr",td:"td",th:"th",strike:"s",s:"s",hr:"hr",i:"i",code:"code",pre:"php",li:"*"},i={strong:"b",em:"i",u:"u",li:"*",ul:"list",ol:"list",code:"code",pre:"php",a:"link",img:"img",blockquote:"quote"},r={color:"color",font:"font-family",align:"text-align",size:"font-size"},o={url:"href",email:"mailhref",quote:"cite",list:"listType"},a=CKEDITOR.dtd,s=CKEDITOR.tools.extend({table:1},a.$block,a.$listItem,a.$tableContent,a.$list),l=/\s*(?:;\s*|$)/,u={smiley:":)",sad:":(",wink:";)",laugh:":D",cheeky:":P",blush:":*)",surprise:":-o",indecision:":|",angry:">:(",angel:"o:)",cool:"8-)",devil:">:-)",crying:";(",kiss:":-*"},c={},d=[];for(var f in u)c[u[f]]=f,d.push(u[f].replace(/\(|\)|\:|\/|\*|\-|\|/g,function(e){return"\\"+e}));d=new RegExp(d.join("|"),"g");var p=function(){var e=[],t={nbsp:" ",shy:"­",gt:">",lt:"<"};for(var n in t)e.push(n);return e=new RegExp("&("+e.join("|")+");","g"),function(n){return n.replace(e,function(e,n){return t[n]})}}();CKEDITOR.BBCodeParser=function(){this._={bbcPartsRegex:/(?:\[([^\/\]=]*?)(?:=([^\]]*?))?\])|(?:\[\/([a-z]{1,16})\])/gi}},CKEDITOR.BBCodeParser.prototype={parse:function(n){for(var i,a,s=0;i=this._.bbcPartsRegex.exec(n);){var l=i.index;if(l>s){var u=n.substring(s,l);this.onText(u,1)}if(s=this._.bbcPartsRegex.lastIndex,a=(i[1]||i[3]||"").toLowerCase(),!a||t[a])if(i[1]){var c=t[a],d={},f={},p=i[2];p&&("list"==a&&(isNaN(p)?/^[a-z]+$/.test(p)?p="lower-alpha":/^[A-Z]+$/.test(p)&&(p="upper-alpha"):p="decimal"),r[a]?("size"==a&&(f[r[a]]=p),"font"==a&&(f[r[a]]=p),"color"==a&&(f[r[a]]=p),d.style=e(f)):o[a]&&(d[o[a]]=p)),("email"==a||"img"==a)&&(d.bbcode=a),this.onTagOpen(c,d,CKEDITOR.dtd.$empty[c])}else i[3]&&this.onTagClose(t[a]);else this.onText(i[0])}n.length>s&&this.onText(n.substring(s,n.length),1)}},CKEDITOR.htmlParser.fragment.fromBBCode=function(e){function t(e){if(u.length>0)for(var t=0;t<u.length;t++){var n=u[t],i=n.name,r=CKEDITOR.dtd[i],o=p.name&&CKEDITOR.dtd[p.name];o&&!o[i]||e&&r&&!r[e]&&CKEDITOR.dtd[e]||(n=n.clone(),n.parent=p,p=n,u.splice(t,1),t--)}}function n(e,t){var n=p.children.length,r=n>0&&p.children[n-1],o=!r&&m.getRule(i[p.name],"breakAfterOpen"),a=r&&r.type==CKEDITOR.NODE_ELEMENT&&m.getRule(i[r.name],"breakAfterClose"),l=e&&m.getRule(i[e],t?"breakBeforeClose":"breakBeforeOpen");f&&(o||a||l)&&f--,f&&e in s&&f++;for(;f&&f--;)p.children.push(r=new CKEDITOR.htmlParser.element("br"))}function r(e,t){n(e.name,1),t=t||p||l;var i=t.children.length,r=i>0&&t.children[i-1]||null;e.previous=r,e.parent=t,t.children.push(e),e.returnPoint&&(p=e.returnPoint,delete e.returnPoint)}var o,a=new CKEDITOR.BBCodeParser,l=new CKEDITOR.htmlParser.fragment,u=[],f=0,p=l;a.onTagOpen=function(e,i){var s=new CKEDITOR.htmlParser.element(e,i);if(CKEDITOR.dtd.$removeEmpty[e])return u.push(s),void 0;var l=p.name,c=l&&(CKEDITOR.dtd[l]||(p._.isBlockLike?CKEDITOR.dtd.div:CKEDITOR.dtd.span));if(c&&!c[e]){var d,f=!1;if(e==l?r(p,p.parent):e in CKEDITOR.dtd.$listItem?(a.onTagOpen("ul",{}),d=p,f=!0):(r(p,p.parent),u.unshift(p),f=!0),p=d?d:p.returnPoint||p.parent,f)return a.onTagOpen.apply(this,arguments),void 0}t(e),n(e),s.parent=p,s.returnPoint=o,o=0,s.isEmpty?r(s):p=s},a.onTagClose=function(e){for(var t=u.length-1;t>=0;t--)if(e==u[t].name)return u.splice(t,1),void 0;for(var n=[],i=[],o=p;o.type&&o.name!=e;)o._.isBlockLike||i.unshift(o),n.push(o),o=o.parent;if(o.type){for(t=0;t<n.length;t++){var a=n[t];r(a,a.parent)}p=o,r(o,o.parent),o==p&&(p=p.parent),u=u.concat(i)}},a.onText=function(e){var i=CKEDITOR.dtd[p.name];(!i||i["#"])&&(n(),t(),e.replace(/(\r\n|[\r\n])|[^\r\n]*/g,function(e,t){if(void 0!==t&&t.length)f++;else if(e.length){var n=0;e.replace(d,function(t,i){r(new CKEDITOR.htmlParser.text(e.substring(n,i)),p),r(new CKEDITOR.htmlParser.element("smiley",{desc:c[t]}),p),n=i+t.length}),n!=e.length&&r(new CKEDITOR.htmlParser.text(e.substring(n,e.length)),p)}}))},a.parse(CKEDITOR.tools.htmlEncode(e));for(;p.type!=CKEDITOR.NODE_DOCUMENT_FRAGMENT;){var h=p.parent,g=p;r(g,h),p=h}return l};var h=CKEDITOR.tools.createClass({$:function(){this._={output:[],rules:[]},this.setRules("list",{breakBeforeOpen:1,breakAfterOpen:1,breakBeforeClose:1,breakAfterClose:1}),this.setRules("*",{breakBeforeOpen:1,breakAfterOpen:0,breakBeforeClose:1,breakAfterClose:0}),this.setRules("quote",{breakBeforeOpen:1,breakAfterOpen:0,breakBeforeClose:0,breakAfterClose:1}),this.setRules("code",{breakBeforeOpen:1,breakAfterOpen:1,breakBeforeClose:1,breakAfterClose:1})},proto:{setRules:function(e,t){var n=this._.rules[e];n?CKEDITOR.tools.extend(n,t,!0):this._.rules[e]=t},getRule:function(e,t){return this._.rules[e]&&this._.rules[e][t]},openTag:function(e){e in t&&(this.getRule(e,"breakBeforeOpen")&&this.lineBreak(1),this.write("[",e))},openTagClose:function(e){"br"==e?this._.output.push("\n"):e in t&&(this.write("]"),this.getRule(e,"breakAfterOpen")&&this.lineBreak(1))},attribute:function(e,t){"option"==e&&("string"==typeof t&&(t=t.replace(/&amp;/g,"&")),this.write("=",t))},closeTag:function(e){e in t&&(this.getRule(e,"breakBeforeClose")&&this.lineBreak(1),"*"!=e&&this.write("[/",e,"]"),this.getRule(e,"breakAfterClose")&&this.lineBreak(1))},text:function(e){this.write(e)},comment:function(){},lineBreak:function(){!this._.hasLineBreak&&this._.output.length&&(this.write("\n"),this._.hasLineBreak=1)},write:function(){this._.hasLineBreak=0;var e=Array.prototype.join.call(arguments,"");this._.output.push(e)},reset:function(){this._.output=[],this._.hasLineBreak=0},getHtml:function(e){var t=this._.output.join("");return e&&this.reset(),p(t)}}}),m=new h;CKEDITOR.plugins.add("bbcode",{requires:"entities",beforeInit:function(e){var t=e.config;CKEDITOR.tools.extend(t,{enterMode:CKEDITOR.ENTER_BR,basicEntities:!1,entities:!1,fillEmptyBlocks:!1},!0),e.filter.disable()},init:function(e){function t(e){var t=CKEDITOR.htmlParser.fragment.fromBBCode(e),n=new CKEDITOR.htmlParser.basicWriter;return t.writeHtml(n,o),n.getHtml(!0)}function i(e){var n=e.data.dataValue;e.data.dataValue=t(n)}var r=e.config,o=new CKEDITOR.htmlParser.filter;o.addRules({elements:{blockquote:function(e){var t=new CKEDITOR.htmlParser.element("div");t.children=e.children,e.children=[t];var n=e.attributes.cite;if(n){var i=new CKEDITOR.htmlParser.element("cite");i.add(new CKEDITOR.htmlParser.text(n.replace(/^"|"$/g,""))),delete e.attributes.cite,e.children.unshift(i)}},span:function(e){var t;(t=e.attributes.bbcode)&&("img"==t?(e.name="img",e.attributes.src=e.children[0].value,e.children=[]):"email"==t&&(e.name="a",e.attributes.href="mailto:"+e.children[0].value),delete e.attributes.bbcode)},ol:function(e){e.attributes.listType?"decimal"!=e.attributes.listType&&(e.attributes.style="list-style-type:"+e.attributes.listType):e.name="ul",delete e.attributes.listType},a:function(e){e.attributes.href||(e.attributes.href=e.children[0].value)},smiley:function(e){e.name="img";var t=e.attributes.desc,n=r.smiley_images[CKEDITOR.tools.indexOf(r.smiley_descriptions,t)],i=CKEDITOR.tools.htmlEncode(r.smiley_path+n);e.attributes={src:i,"data-cke-saved-src":i,title:t,alt:t}}}}),e.dataProcessor.htmlFilter.addRules({elements:{$:function(t){var i,r=t.attributes,o=CKEDITOR.tools.parseCssText(r.style,1),a=t.name;if(a in n)a=n[a];else if("span"==a)(i=o.color)?(a="color",i=CKEDITOR.tools.convertRgbToHex(i)):(i=o["font-family"])?(a="font",i=i):(i=o["font-size"])&&(i=i,a="size");else if("ol"==a||"ul"==a){if(i=o["list-style-type"])switch(i){case"lower-alpha":i="a";break;case"upper-alpha":i="A"}else"ol"==a&&(i=1);a="list"}else if("blockquote"==a){try{var s=t.children[0],l=t.children[1],c="cite"==s.name&&s.children[0].value;c&&(i='"'+c+'"',t.children=l.children)}catch(d){}a="quote"}else if("a"==a){if(i=r.href)if(-1!==i.indexOf("mailto:"))a="email",t.children=[new CKEDITOR.htmlParser.text(i.replace("mailto:",""))],i="";else{var f=1==t.children.length&&t.children[0];f&&f.type==CKEDITOR.NODE_TEXT&&f.value==i&&(i=""),a="url"}}else if("img"==a){t.isEmpty=0;var p=r["data-cke-saved-src"]||r.src,h=r.alt;if(r.width&&r.height&&(i=r.width+"x"+r.height),p&&-1!=p.indexOf(e.config.smiley_path)&&h)return new CKEDITOR.htmlParser.text(u[h]);t.children=[new CKEDITOR.htmlParser.text(p)]}else(i=o["text-align"])&&(a="align",i=i);return t.name=a,i&&(t.attributes.option=i),null},br:function(e){var t=e.next;return t&&t.name in s?!1:void 0}}},1),e.dataProcessor.writer=m,e.elementMode==CKEDITOR.ELEMENT_MODE_INLINE?e.once("contentDom",function(){e.on("setData",i)}):e.on("setData",i)},afterInit:function(e){var t;e._.elementsPath&&(t=e._.elementsPath.filters)&&t.push(function(t){var n=t.getName(),r=i[n]||!1;if("link"==r&&0===t.getAttribute("href").indexOf("mailto:"))r="email";else if("span"==n)t.getStyle("font-size")?r="size":t.getStyle("color")?r="color":t.getStyle("font-family")&&(r="font");else if("img"==r){var o=t.data("cke-saved-src")||t.getAttribute("src");o&&0===o.indexOf(e.config.smiley_path)&&(r="smiley")}else t.getStyle("text-align")&&(r="align");return r})}})}();
+﻿/**
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
+ */
+
+(function() {
+	CKEDITOR.on( 'dialogDefinition', function( ev ) {
+		var tab,
+			name = ev.data.name,
+			definition = ev.data.definition;
+
+		if ( name == 'link' ) {
+			definition.removeContents( 'target' );
+			definition.removeContents( 'upload' );
+			definition.removeContents( 'advanced' );
+			tab = definition.getContents( 'info' );
+			tab.remove( 'emailSubject' );
+			tab.remove( 'emailBody' );
+		} else if ( name == 'image' ) {
+			definition.removeContents( 'advanced' );
+			tab = definition.getContents( 'Link' );
+			tab.remove( 'cmbTarget' );
+			tab = definition.getContents( 'info' );
+			tab.remove( 'txtAlt' );
+			tab.remove( 'basic' );
+		} else if ( name == 'table' ) {
+			definition.removeContents( 'advanced' );
+			tab = definition.getContents( 'info' );
+			tab.remove( 'selHeaders' );
+			tab.remove( 'txtWidth' );
+			tab.remove( 'txtHeight' );
+			tab.remove( 'txtBorder' );
+			tab.remove( 'cmbAlign' );
+			tab.remove( 'txtCellSpace' );
+			tab.remove( 'txtCellPad' );
+			tab.remove( 'txtCaption' );
+			tab.remove( 'txtSummary' );
+		}
+	});
+
+	var bbcodeMap = { b: 'strong', u: 'u', sub: 'sub', sup: 'sup', i: 'em', s: 's', color: 'span', size: 'span', bgcolor: 'span', font: 'span', align: 'div', dir: 'div', quote: 'blockquote', code: 'code', php: 'pre', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
+		convertMap = { strong: 'b', b: 'b', strike: 's', s: 's', u: 'u', sub: 'sub', sup: 'sup', em: 'i', i: 'i', code: 'code', pre: 'php', li: '*' },
+		tagnameMap = { strong: 'b', strike: 's', em: 'i', u: 'u', sub: 'sub', sup: 'sup', li: '*', ul: 'list', ol: 'list', code: 'code', pre: 'php', a: 'link', img: 'img', blockquote: 'quote' },
+		stylesMap = { color: 'color', bgcolor: 'background-color', size: 'font-size', font: 'font-family', align: 'text-align', dir: 'direction' },
+		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType', dir: 'dir' };
+
+	// List of block-like tags.
+	var dtd = CKEDITOR.dtd,
+		blockLikeTags = CKEDITOR.tools.extend( { table:1 }, dtd.$block, dtd.$listItem, dtd.$tableContent, dtd.$list );
+
+	var semicolonFixRegex = /\s*(?:;\s*|$)/;
+
+	function serializeStyleText( stylesObject ) {
+		var styleText = '';
+		for ( var style in stylesObject ) {
+			var styleVal = stylesObject[ style ],
+				text = ( style + ':' + styleVal ).replace( semicolonFixRegex, ';' );
+
+			styleText += text;
+		}
+		return styleText;
+	}
+
+	// Maintain the map of smiley-to-description.
+	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
+		smileyReverseMap = {},
+		smileyRegExp = [];
+
+	// Build regexp for the list of smiley text.
+	for ( var i in smileyMap ) {
+		smileyReverseMap[ smileyMap[ i ] ] = i;
+		smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
+			return '\\' + match;
+		}));
+	}
+
+	smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
+
+	var decodeHtml = (function() {
+		var regex = [],
+			entities = {
+				nbsp: '\u00A0', // IE | FF
+				shy: '\u00AD', // IE
+				gt: '\u003E', // IE | FF |   --   | Opera
+				lt: '\u003C' // IE | FF | Safari | Opera
+			};
+
+		for ( var entity in entities )
+			regex.push( entity );
+
+		regex = new RegExp( '&(' + regex.join( '|' ) + ');', 'g' );
+
+		return function( html ) {
+			return html.replace( regex, function( match, entity ) {
+				return entities[ entity ];
+			});
+		};
+	})();
+
+	CKEDITOR.BBCodeParser = function() {
+		this._ = {
+			bbcPartsRegex: /(?:\[([^\/\]=]*?)(?:=([^\]]*?))?\])|(?:\[\/([a-z]{1,16})\])/ig
+		};
+	};
+
+	CKEDITOR.BBCodeParser.prototype = {
+		parse: function( bbcode ) {
+			var parts, part,
+				lastIndex = 0;
+				if(bbcode != '')
+				{
+					postData = "m="+encodeURIComponent(bbcode).replace(/\+/g, "%2B");
+					var responseXML = CKEDITOR.mybbajax.open({
+							url: CKEDITOR.basePath+'ckeditor.php?action=bbcodeparser',
+							type: 'POST',
+							data: postData
+						});
+						bbcode =responseXML.responseText;
+				}
+				this.onText( bbcode, 1 );
+/*
+			while ( ( parts = this._.bbcPartsRegex.exec( bbcode ) ) ) {
+				var tagIndex = parts.index;
+				if ( tagIndex > lastIndex ) {
+					var text = bbcode.substring( lastIndex, tagIndex );
+					this.onText( text, 1 );
+				}
+
+				lastIndex = this._.bbcPartsRegex.lastIndex;
+
+				// "parts" is an array with the following items:
+				// 0 : The entire match for opening/closing tags and line-break;
+				// 1 : line-break;
+				// 2 : open of tag excludes option;
+				// 3 : tag option;
+				// 4 : close of tag;
+
+				part = ( parts[ 1 ] || parts[ 3 ] || '' ).toLowerCase();
+				// Unrecognized tags should be delivered as a simple text (#7860).
+				if ( part && !bbcodeMap[ part ] ) {
+					this.onText( parts[ 0 ] );
+					continue;
+				}
+
+				// Opening tag
+				if ( parts[ 1 ] ) {
+					var tagName = bbcodeMap[ part ],
+						attribs = {},
+						styles = {},
+						optionPart = parts[ 2 ];
+
+					if ( optionPart ) {
+						if ( part == 'list' ) {
+							if ( !isNaN( optionPart ) )
+								optionPart = 'decimal';
+							else if ( /^[a-z]+$/.test( optionPart ) )
+								optionPart = 'lower-alpha';
+							else if ( /^[A-Z]+$/.test( optionPart ) )
+								optionPart = 'upper-alpha';
+						}
+
+						if ( stylesMap[ part ] ) {
+							// Font size represents percentage.
+							styles[ stylesMap[ part ] ] = optionPart;
+							attribs.style = serializeStyleText( styles );
+						} else if ( attributesMap[ part ] )
+							attribs[ attributesMap[ part ] ] = optionPart;
+					}
+
+					// Two special handling - image and email, protect them
+					// as "span" with an attribute marker.
+					if ( part == 'email' || part == 'img' )
+						attribs[ 'bbcode' ] = part;
+
+					this.onTagOpen( tagName, attribs, CKEDITOR.dtd.$empty[ tagName ] );
+				}
+				// Closing tag
+				else if ( parts[ 3 ] )
+					this.onTagClose( bbcodeMap[ part ] );
+			}
+
+			if ( bbcode.length > lastIndex )
+				this.onText( bbcode.substring( lastIndex, bbcode.length ), 1 );*/
+		}
+	};
+
+	/**
+	 * Creates a {@link CKEDITOR.htmlParser.fragment} from an HTML string.
+	 *
+	 *		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>Sample</b> Text' );
+	 *		alert( fragment.children[ 0 ].name );		// 'b'
+	 *		alert( fragment.children[ 1 ].value );	// ' Text'
+	 *
+	 * @static
+	 * @member CKEDITOR.htmlParser.fragment
+	 * @param {String} source The HTML to be parsed, filling the fragment.
+	 * @returns {CKEDITOR.htmlParser.fragment} The fragment created.
+	 */
+	CKEDITOR.htmlParser.fragment.fromBBCode = function( source ) {
+		var parser = new CKEDITOR.BBCodeParser(),
+			fragment = new CKEDITOR.htmlParser.fragment(),
+			pendingInline = [],
+			pendingBrs = 0,
+			currentNode = fragment,
+			returnPoint;
+
+		function checkPending( newTagName ) {
+			if ( pendingInline.length > 0 ) {
+				for ( var i = 0; i < pendingInline.length; i++ ) {
+					var pendingElement = pendingInline[ i ],
+						pendingName = pendingElement.name,
+						pendingDtd = CKEDITOR.dtd[ pendingName ],
+						currentDtd = currentNode.name && CKEDITOR.dtd[ currentNode.name ];
+
+					if ( ( !currentDtd || currentDtd[ pendingName ] ) && ( !newTagName || !pendingDtd || pendingDtd[ newTagName ] || !CKEDITOR.dtd[ newTagName ] ) ) {
+						// Get a clone for the pending element.
+						pendingElement = pendingElement.clone();
+
+						// Add it to the current node and make it the current,
+						// so the new element will be added inside of it.
+						pendingElement.parent = currentNode;
+						currentNode = pendingElement;
+
+						// Remove the pending element (back the index by one
+						// to properly process the next entry).
+						pendingInline.splice( i, 1 );
+						i--;
+					}
+				}
+			}
+		}
+
+		function checkPendingBrs( tagName, closing ) {
+
+		}
+
+		function addElement( node, target ) {
+			checkPendingBrs( node.name, 1 );
+
+			target = target || currentNode || fragment;
+
+			var len = target.children.length,
+				previous = len > 0 && target.children[ len - 1 ] || null;
+
+			node.previous = previous;
+			node.parent = target;
+
+			target.children.push( node );
+
+			if ( node.returnPoint ) {
+				currentNode = node.returnPoint;
+				delete node.returnPoint;
+			}
+		}
+
+		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
+			var element = new CKEDITOR.htmlParser.element( tagName, attributes );
+
+			// This is a tag to be removed if empty, so do not add it immediately.
+			if ( CKEDITOR.dtd.$removeEmpty[ tagName ] ) {
+				pendingInline.push( element );
+				return;
+			}
+
+			var currentName = currentNode.name;
+
+			var currentDtd = currentName && ( CKEDITOR.dtd[ currentName ] || ( currentNode._.isBlockLike ? CKEDITOR.dtd.div : CKEDITOR.dtd.span ) );
+
+			// If the element cannot be child of the current element.
+			if ( currentDtd && !currentDtd[ tagName ] ) {
+				var reApply = false,
+					addPoint; // New position to start adding nodes.
+
+				// If the element name is the same as the current element name,
+				// then just close the current one and append the new one to the
+				// parent. This situation usually happens with <p>, <li>, <dt> and
+				// <dd>, specially in IE. Do not enter in this if block in this case.
+				if ( tagName == currentName )
+					addElement( currentNode, currentNode.parent );
+				else if ( tagName in CKEDITOR.dtd.$listItem ) {
+					parser.onTagOpen( 'ul', {} );
+					addPoint = currentNode;
+					reApply = true;
+				} else {
+					addElement( currentNode, currentNode.parent );
+
+					// The current element is an inline element, which
+					// cannot hold the new one. Put it in the pending list,
+					// and try adding the new one after it.
+					pendingInline.unshift( currentNode );
+					reApply = true;
+				}
+
+				if ( addPoint )
+					currentNode = addPoint;
+				// Try adding it to the return point, or the parent element.
+				else
+					currentNode = currentNode.returnPoint || currentNode.parent;
+
+				if ( reApply ) {
+					parser.onTagOpen.apply( this, arguments );
+					return;
+				}
+			}
+
+			checkPending( tagName );
+			checkPendingBrs( tagName );
+
+			element.parent = currentNode;
+			element.returnPoint = returnPoint;
+			returnPoint = 0;
+
+			if ( element.isEmpty )
+				addElement( element );
+			else
+				currentNode = element;
+		};
+
+		parser.onTagClose = function( tagName ) {
+			// Check if there is any pending tag to be closed.
+			for ( var i = pendingInline.length - 1; i >= 0; i-- ) {
+				// If found, just remove it from the list.
+				if ( tagName == pendingInline[ i ].name ) {
+					pendingInline.splice( i, 1 );
+					return;
+				}
+			}
+
+			var pendingAdd = [],
+				newPendingInline = [],
+				candidate = currentNode;
+
+			while ( candidate.type && candidate.name != tagName ) {
+				// If this is an inline element, add it to the pending list, if we're
+				// really closing one of the parents element later, they will continue
+				// after it.
+				if ( !candidate._.isBlockLike )
+					newPendingInline.unshift( candidate );
+
+				// This node should be added to it's parent at this point. But,
+				// it should happen only if the closing tag is really closing
+				// one of the nodes. So, for now, we just cache it.
+				pendingAdd.push( candidate );
+
+				candidate = candidate.parent;
+			}
+
+			if ( candidate.type ) {
+				// Add all elements that have been found in the above loop.
+				for ( i = 0; i < pendingAdd.length; i++ ) {
+					var node = pendingAdd[ i ];
+					addElement( node, node.parent );
+				}
+
+				currentNode = candidate;
+
+
+				addElement( candidate, candidate.parent );
+
+				// The parent should start receiving new nodes now, except if
+				// addElement changed the currentNode.
+				if ( candidate == currentNode )
+					currentNode = currentNode.parent;
+
+				pendingInline = pendingInline.concat( newPendingInline );
+			}
+		};
+
+		parser.onText = function( text ) {
+			var currentDtd = CKEDITOR.dtd[ currentNode.name ];
+			if ( !currentDtd || currentDtd[ '#' ] ) {
+				checkPendingBrs();
+				checkPending();
+
+				text.replace( /(\r\n|[\r\n])|[^\r\n]*/g, function( piece, lineBreak ) {
+					if ( lineBreak !== undefined && lineBreak.length )
+						pendingBrs++;
+					else if ( piece.length ) {
+						var lastIndex = 0;
+
+						// Create smiley from text emotion.
+						piece.replace( smileyRegExp, function( match, index ) {
+							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, index ) ), currentNode );
+							addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyReverseMap[ match ] } ), currentNode );
+							lastIndex = index + match.length;
+						});
+
+						if ( lastIndex != piece.length )
+							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, piece.length ) ), currentNode );
+					}
+				});
+			}
+		};
+
+		// Parse it.
+		parser.parse( CKEDITOR.tools.htmlEncode( source ) );
+
+		// Close all hanging nodes.
+		while ( currentNode.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT ) {
+			var parent = currentNode.parent,
+				node = currentNode;
+
+			addElement( node, parent );
+			currentNode = parent;
+		}
+
+		return fragment;
+	};
+
+	var BBCodeWriter = CKEDITOR.tools.createClass({
+		$: function() {
+			this._ = {
+				output: [],
+				rules: []
+			};
+
+			// List and list item.
+			this.setRules( 'list', { breakBeforeOpen:1,breakAfterOpen:1,breakBeforeClose:1,breakAfterClose:1 });
+
+			this.setRules( '*', {
+				breakBeforeOpen: 1,
+				breakAfterOpen: 0,
+				breakBeforeClose: 1,
+				breakAfterClose: 0
+			});
+
+			this.setRules( 'quote', {
+				breakBeforeOpen: 1,
+				breakAfterOpen: 0,
+				breakBeforeClose: 0,
+				breakAfterClose: 1
+			});
+		},
+
+		proto: {
+			//
+			// Sets formatting rules for a given tag. The possible rules are:
+			// <ul>
+			//	<li><b>breakBeforeOpen</b>: break line before the opener tag for this element.</li>
+			//	<li><b>breakAfterOpen</b>: break line after the opener tag for this element.</li>
+			//	<li><b>breakBeforeClose</b>: break line before the closer tag for this element.</li>
+			//	<li><b>breakAfterClose</b>: break line after the closer tag for this element.</li>
+			// </ul>
+			//
+			// All rules default to "false". Each call to the function overrides
+			// already present rules, leaving the undefined untouched.
+			//
+			// @param {String} tagName The tag name to which set the rules.
+			// @param {Object} rules An object containing the element rules.
+			// @example
+			// // Break line before and after "img" tags.
+			// writer.setRules( 'list',
+			//		 {
+			//				 breakBeforeOpen : true
+			//				 breakAfterOpen : true
+			//		 });
+			setRules: function( tagName, rules ) {
+				var currentRules = this._.rules[ tagName ];
+
+				if ( currentRules )
+					CKEDITOR.tools.extend( currentRules, rules, true );
+				else
+					this._.rules[ tagName ] = rules;
+			},
+
+			getRule: function( tagName, ruleName ) {
+				return this._.rules[ tagName ] && this._.rules[ tagName ][ ruleName ];
+			},
+
+			openTag : function( tag ) {
+				if ( tag in bbcodeMap ) {
+					if ( this.getRule( tag, 'breakBeforeOpen' ) )
+						this.lineBreak( 1 );
+
+					this.write( '[', tag );
+				}
+			},
+
+			openTagClose : function( tag ) {
+				if ( tag == 'br' )
+					this._.output.push( '\n' );
+				else if ( tag in bbcodeMap ) {
+					this.write( ']' );
+					if ( this.getRule( tag, 'breakAfterOpen' ) )
+						this.lineBreak( 1 );
+				}
+			},
+
+			attribute : function( name, val ) {
+				if ( name == 'option' ) {
+					// Force simply ampersand in attributes.
+					if ( typeof val == 'string' )
+						val = val.replace( /&amp;/g, '&' );
+
+					this.write( '=', val );
+				}
+			},
+
+			closeTag: function( tag ) {
+				if ( tag in bbcodeMap ) {
+					if ( this.getRule( tag, 'breakBeforeClose' ) )
+						this.lineBreak( 1 );
+
+					tag != '*' && this.write( '[/', tag, ']' );
+
+					if ( this.getRule( tag, 'breakAfterClose' ) )
+						this.lineBreak( 1 );
+				}
+			},
+
+			text: function( text ) {
+				this.write( text );
+			},
+
+			comment: function() {},
+
+			// Output line-break for formatting.
+			lineBreak: function() {
+				// Avoid line break when:
+				// 1) Previous tag already put one.
+				// 2) We're at output start.
+				if ( !this._.hasLineBreak && this._.output.length ) {
+					this.write( '\n' );
+					this._.hasLineBreak = 1;
+				}
+			},
+
+			write: function() {
+				this._.hasLineBreak = 0;
+				var data = Array.prototype.join.call( arguments, '' );
+				this._.output.push( data );
+			},
+
+			reset: function() {
+				this._.output = [];
+				this._.hasLineBreak = 0;
+			},
+
+			getHtml: function( reset ) {
+				var bbcode = this._.output.join( '' );
+
+				if ( reset )
+					this.reset();
+
+				return decodeHtml( bbcode );
+			}
+		}
+	});
+
+	var writer = new BBCodeWriter();
+
+	CKEDITOR.plugins.add( 'bbcode', {
+		requires: 'entities',
+
+		beforeInit: function( editor ) {
+			// Adapt some critical editor configuration for better support
+			// of BBCode environment.
+			var config = editor.config;
+			CKEDITOR.tools.extend( config, {
+				enterMode: CKEDITOR.ENTER_BR,
+				basicEntities: false,
+				entities: false,
+				fillEmptyBlocks: false
+			}, true );
+
+			editor.filter.disable();
+		},
+
+		init: function( editor ) {
+			var config = editor.config;
+
+			function BBCodeToHtml( code ) {
+				var fragment = CKEDITOR.htmlParser.fragment.fromBBCode( code ),
+					writer = new CKEDITOR.htmlParser.basicWriter();
+
+				fragment.writeHtml( writer, bbcodeFilter );
+				return writer.getHtml( true );
+			}
+			
+			var bbcodeFilter = new CKEDITOR.htmlParser.filter();
+			bbcodeFilter.addRules({
+				elements: {
+					blockquote: function( element ) {
+						var quoted = new CKEDITOR.htmlParser.element( 'div' );
+						quoted.children = element.children;
+						element.children = [ quoted ];
+						var citeText = element.attributes.cite;
+						if ( citeText ) {
+							var cite = new CKEDITOR.htmlParser.element( 'cite' );
+							cite.add( new CKEDITOR.htmlParser.text( citeText.replace( /^"|"$/g, '' ) ) );
+							delete element.attributes.cite;
+							element.children.unshift( cite );
+						}
+					},
+					span: function( element ) {
+						var bbcode;
+						if ( ( bbcode = element.attributes.bbcode ) ) {
+							if ( bbcode == 'img' ) {
+								element.name = 'img';
+								element.attributes.src = element.children[ 0 ].value;
+								element.children = [];
+							} else if ( bbcode == 'email' ) {
+								element.name = 'a';
+								element.attributes.href = 'mailto:' + element.children[ 0 ].value;
+							}
+
+							delete element.attributes.bbcode;
+						}
+					},
+					ol: function( element ) {
+						if ( element.attributes.listType ) {
+							if ( element.attributes.listType != 'decimal' )
+								element.attributes.style = 'list-style-type:' + element.attributes.listType;
+						} else
+							element.name = 'ul';
+
+						delete element.attributes.listType;
+					},
+					a: function( element ) {
+						if ( !element.attributes.href )
+							element.attributes.href = element.children[ 0 ].value;
+					},
+					smiley: function( element ) {
+						element.name = 'img';
+
+						var description = element.attributes.desc,
+							image = config.smiley_images[ CKEDITOR.tools.indexOf( config.smiley_descriptions, description ) ],
+							src = CKEDITOR.tools.htmlEncode( config.smiley_path + image );
+
+						element.attributes = {
+							src: src,
+							'data-cke-saved-src': src,
+							title: description,
+							alt: description
+						};
+					}
+				}
+			});
+		/*	editor.dataProcessor.htmlFilter.addRules({
+				elements: {
+					$: function( element ) {
+						var attributes = element.attributes,
+							style = CKEDITOR.tools.parseCssText( attributes.style, 1 ),
+							value;
+
+						var tagName = element.name;
+						if ( tagName in convertMap )
+							tagName = convertMap[ tagName ];
+						else if ( tagName == 'span' ) {
+							if ( ( value = style.color ) ) {
+								tagName = 'color';
+								value = CKEDITOR.tools.convertRgbToHex( value );
+							} else if ( ( value = style[ 'font-size' ] ) ) {
+
+									tagName = 'size';
+							} else if ( ( value = style[ 'background-color' ] ) ) {
+									tagName = 'bgcolor';
+							} else if ( ( value = style[ 'font-family' ] ) ) {
+									tagName = 'font';
+							}
+						} else if ( tagName == 'div' ) {
+							if ( ( value = style[ 'text-align' ] ) ) {
+								if(value == 'left' || value == 'right' || value == 'center' || value == 'justify')
+									tagName = 'align';
+							}
+							else if ( ( value = attributes.dir ) ) {
+								if(value == 'rtl' || value == 'ltr')
+									tagName = 'dir';
+							}
+							else if ( ( value = style[ 'direction' ] ) ) {
+								if(value == 'rtl' || value == 'ltr')
+									tagName = 'dir';
+							}
+						} else if ( tagName == 'ol' || tagName == 'ul' ) {
+							if ( ( value = style[ 'list-style-type' ] ) ) {
+								switch ( value ) {
+									case 'lower-alpha':
+										value = 'a';
+										break;
+									case 'upper-alpha':
+										value = 'A';
+										break;
+								}
+							} else if ( tagName == 'ol' )
+								value = 1;
+
+							tagName = 'list';
+						} else if ( tagName == 'blockquote' ) {
+							try {
+								var cite = element.children[ 0 ],
+									quoted = element.children[ 1 ],
+									citeText = cite.name == 'cite' && cite.children[ 0 ].value;
+
+								if ( citeText ) {
+									value = '"' + citeText + '"';
+									element.children = quoted.children;
+								}
+
+							} catch ( er ) {}
+
+							tagName = 'quote';
+						} else if ( tagName == 'a' ) {
+							if ( ( value = attributes.href ) ) {
+								if ( value.indexOf( 'mailto:' ) !== -1 ) {
+									tagName = 'email';
+									// [email] should have a single text child with email address.
+									element.children = [ new CKEDITOR.htmlParser.text( value.replace( 'mailto:', '' ) ) ];
+									value = '';
+								} else {
+									var singleton = element.children.length == 1 && element.children[ 0 ];
+									if ( singleton && singleton.type == CKEDITOR.NODE_TEXT && singleton.value == value )
+										value = '';
+
+									tagName = 'url';
+								}
+							}
+						} else if ( tagName == 'img' ) {
+							element.isEmpty = 0;
+
+							// Translate smiley (image) to text emotion.
+							var src = attributes[ 'data-cke-saved-src' ] || attributes.src,
+								alt = attributes.alt;
+
+							if ( src && src.indexOf( editor.config.smiley_path ) != -1 && alt )
+								return new CKEDITOR.htmlParser.text( smileyMap[ alt ] );
+							else
+								element.children = [ new CKEDITOR.htmlParser.text( src ) ];
+						}
+
+						element.name = tagName;
+						value && ( element.attributes.option = value );
+
+						return null;
+					},
+
+					// Remove any bogus br from the end of a pseudo block,
+					// e.g. <div>some text<br /><p>paragraph</p></div>
+					br: function( element ) {
+						var next = element.next;
+						if ( next && next.name in blockLikeTags )
+							return false;
+					}
+				}
+			}, 1 );
+
+			editor.dataProcessor.writer = writer;*/
+
+			function onSetData( evt ) {
+				var bbcode = evt.data.dataValue;
+				evt.data.dataValue = BBCodeToHtml( bbcode );
+			}
+
+			// Skip the first "setData" call from inline creator, to allow content of
+			// HTML to be loaded from the page element.
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+				editor.once( 'contentDom', function() {
+					editor.on( 'setData', onSetData );
+				});
+			else
+				editor.on( 'setData', onSetData );
+
+		},
+
+		afterInit: function( editor ) {
+			var filters;
+			if ( editor._.elementsPath ) {
+				// Eliminate irrelevant elements from displaying, e.g body and p.
+				if ( ( filters = editor._.elementsPath.filters ) ) {
+					filters.push( function( element ) {
+						var htmlName = element.getName(),
+							name = tagnameMap[ htmlName ] || false;
+
+						// Specialized anchor presents as email.
+						if ( name == 'link' && element.getAttribute( 'href' ).indexOf( 'mailto:' ) === 0 )
+							name = 'email';
+						// Styled span could be either size or color.
+						else if ( htmlName == 'span' ) {
+							if ( element.getStyle( 'font-size' ) )
+								name = 'size';
+							else if ( element.getStyle( 'font-family' ) )
+								name = 'font';
+							else if ( element.getStyle( 'color' ) )
+								name = 'color';
+							else if ( element.getStyle( 'background-color' ) )
+								name = 'color';
+						} else if ( htmlName == 'div' ) {
+							if ( element.getStyle( 'text-align' ) )
+								name = 'align';
+							else if ( element.getStyle( 'direction' ) )
+								name = 'dir';
+							else if ( element.getAttribute( 'dir' ) )
+								name = 'dir';
+						} else if ( name == 'img' ) {
+							var src = element.data( 'cke-saved-src' ) || element.getAttribute( 'src' );
+							if ( src && src.indexOf( editor.config.smiley_path ) === 0 )
+								name = 'smiley';
+						}
+
+						return name;
+					});
+				}
+			}
+		}
+	});
+
+})();

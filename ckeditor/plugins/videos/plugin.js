@@ -1,1 +1,0 @@
-CKEDITOR.plugins.add("videos",{lang:"fa,en",icons:"videos",init:function(e){e.addCommand("videosDialog",new CKEDITOR.dialogCommand("videosDialog")),e.ui.addButton("Videos",{label:e.lang.videos.title,command:"videosDialog",toolbar:"insert"}),CKEDITOR.dialog.add("videosDialog",this.path+"dialogs/videos.js")}});

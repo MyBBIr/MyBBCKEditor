@@ -1,0 +1,15 @@
+.cke_top, .cke_dialog_title {
+	background: #e3ebf2;
+}
+
+.cke_bottom, .cke_dialog_footer {
+	background: #f8f8f8;
+}
+
+.cke_contents {
+
+}
+
+.cke_path_item {
+	display:none;
+}

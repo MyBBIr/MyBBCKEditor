@@ -1,34 +1,26 @@
 /*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
+Edit By: My-BB.Ir - WhiteCrow Sofware Group (White-Crow.ir)
 */
+
 body
 {
 	/* Font */
 	font-family: Tahoma,sans-serif, Arial, Verdana, "Trebuchet MS";
-	font-size: 11px;
+	font-size: 12px;
 
 	/* Text color */
 	color: #333;
 
 	/* Remove the background color to make it transparent */
 	background-color: #fff;
-
-	margin: 20px;
+	margin:0;
+	padding:8px;
+	height:auto;
+	min-height:100%;
 }
 
-table {
-	background:#000000;
-	border:1px #000000 solid;
-	margin:15px;
-	width:95%;
-}
-
-td,th {
-	background:#ffffff;
-	padding:5px;
-	border:none;
-}
 
 .cke_editable
 {
@@ -46,7 +38,6 @@ blockquote
 	border-width: 1px;
 	width:auto;
 	margin:10px;
-	text-align:right;
 	overflow: auto;
 	height: auto;
 	display: block;
@@ -61,10 +52,19 @@ blockquote:before {
 	direction:ltr;
 }
 
-code , pre
+.cke_contents_ltr blockquote cite
+{
+
+}
+
+.cke_contents_rtl blockquote cite
+{
+	float:left;
+}
+
+code , pre, .code
 {
 	font-style: normal;
-	font-family: Tahoma, Georgia, Times, "Times New Roman", serif;
 	padding: 2px;
 	border-style: solid;
 	border-color: #ccc;
@@ -75,40 +75,25 @@ code , pre
 	text-align:left;
 	overflow: auto;
 	height: auto;
-	max-height: 200px;
 	display: block;
 	font-family: Monaco, Consolas, Courier, monospace;
 	font-size: 13px;
 }
 
-code:before {
-	content: 'Code:';
-	border-bottom:1px solid #ccc;
-	display:block;
+
+table {
+	background:#000000;
+	border:1px #000000 solid;
+	margin:15px;
+	width:95%;
 }
 
-pre:before {
-	content: 'Php:';
-	border-bottom:1px solid #ccc;
-	display:block;
-}
-/*table,tr,td,td {
-border:1px solid #000000;
-}*/
-
-.cke_contents_ltr blockquote
-{
-	padding-left: 8px;
-	padding-right: 20px;
-	border-right-width: 5px;
+td,th {
+	background:#ffffff;
+	padding:5px;
+	border:none;
 }
 
-.cke_contents_rtl blockquote
-{
-	padding-left: 8px;
-	padding-right: 20px;
-	border-right-width: 5px;
-}
 
 a
 {
@@ -154,8 +139,22 @@ img:hover {
 	filter: alpha(opacity = 90);
 }
 
-pre
+pre, code
 {
 	white-space: pre-wrap; /* CSS 2.1 */
 	word-wrap: break-word; /* IE7 */
+}
+
+.marker {
+    background-color: Yellow;
+}
+
+.cke_contents_ltr mybbir {
+	text-align:left;
+	direction:ltr;
+}
+
+.cke_contents_rtl mybbir {
+	text-align:right;
+	direction:rtl;
 }

@@ -3,7 +3,6 @@
  * Persian Language Pack
  * Copyright 2012 My-BB.Ir Group, All Rights Reserved
  */
-
 $l['mybbirckeditor_lang'] = 'fa';
 $l['mybbirckeditor_dir'] = 'rtl';
 
@@ -42,5 +41,66 @@ $l['mybbirckeditor_fullmenu'] = 'کد تولبار ویرایشگر کامل';
 $l['mybbirckeditor_toolbarlocation'] = 'موقعیت نوار ابزار';
 $l['mybbirckeditor_top'] = 'بالا';
 $l['mybbirckeditor_bottom'] = 'پایین';
+// CKEDITOR Items:
+$l['dash'] = 'جداکننده دکمه‌ها ( | )';
+$l['Source'] = 'منبع';
+$l['Save'] = 'ذخیره';
+$l['NewPage'] = 'صفحه جدید';
+$l['Cut'] = 'بریدن';
+$l['Copy'] = 'کپی';
+$l['Paste'] = 'چسباندن';
+$l['PasteText'] = 'چسباندن متن ساده';
+$l['PasteFromWord'] = 'چسباندن از ورد';
+$l['Undo'] = 'واچیدن';
+$l['Redo'] = 'بازچیدن';
+$l['Find'] = 'جستجو';
+$l['Replace'] = 'جایگزینی';
+$l['SelectAll'] = 'انتخاب همه';
+$l['Bold'] ='ضخیم';
+$l['Italic'] = 'کج';
+$l['Underline'] = 'زیر خط دار';
+$l['Strike'] = 'خط خورده';
+$l['Subscript'] = 'زیرنویس';
+$l['Superscript'] ='بالا نویس';
+$l['RemoveFormat'] = 'حذف فرمت متن';
+$l['NumberedList'] = 'لیست شماره‌ای';
+$l['BulletedList'] = 'لیست نقطه‌ای';
+$l['Outdent'] = 'تورفتگی به سمت راست';
+$l['Indent'] = 'تورفتگی به سمت چپ';
+$l['Link'] = 'پیوند';
+$l['Unlink'] = 'حذف پیوند';
+$l['Image'] = 'تصویر';
+$l['Smiley'] = 'شکلک';
+$l['SpecialChar'] = 'نویسه‌ی ویژه';
+$l['HorizontalRule'] = 'خط افقی';
+$l['FontSize'] = 'اندازه قلم';
+$l['Font'] = 'نوع قلم';
+$l['JustifyLeft'] = 'چپ چین';
+$l['JustifyCenter'] = 'وسط چین';
+$l['JustifyRight'] = 'راست چین';
+$l['JustifyBlock'] = 'تراز متن به دوطرف';
+$l['BidiLtr'] = 'نوشتار متن از چپ به راست';
+$l['BidiRtl'] = 'نوشتار متن از راست به چپ';
+$l['TextColor'] = 'رنگ متن';
+$l['BGColor'] = 'رنگ پس زمینه متن';
+$l['Blockquote'] = 'بلوک نقل قول';
+$l['Code'] = 'بلوک کد';
+$l['PhpBlock'] = 'بلوک کد پی‌اچ‌پی';
+$l['Table'] = 'جدول';
+$l['Videos'] = 'ویدئو';
+$l['Maximize'] = 'تمام صفحه';
+$l['listofbuttons'] = 'لیست دکمه‌ها';
+$l['addbutton'] = 'افزودن دکمه';
+$l['support'] = 'وبسایت پشتیبانی';
+$l['buttonsmanenger'] = 'مدیریت دکمه‌های ویرایشگر';
+$l['title'] = 'عنوان';
+$l['order'] = 'ترتیب';
+$l['editordelete'] = 'ویرایش/حذف';
+$l['addbuttonforthisgroup'] = 'افزودن دکمه برای این گروه';
+$l['thereisnobutton'] = 'هیچ دکمه‌ای وجود ندارد!';
+$l['saveorders'] = 'ذخیره ترتیب دکمه‌ها';
+$l['addbuttongroup'] = 'افزودن گروه دکمه';
+$l['buttontype'] = 'نوع دکمه';
+$l['editbutton'] = 'ویرایش دکمه';
 //$l['mybbirckeditor_'] = '';
 ?>
