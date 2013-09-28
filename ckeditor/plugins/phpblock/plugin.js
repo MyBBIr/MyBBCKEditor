@@ -1,0 +1,1 @@
+CKEDITOR.plugins.add("phpblock",{icons:"phpblock",init:function(e){e.addCommand("phpblock",new CKEDITOR.dialogCommand("phpblockDialog")),e.ui.addButton("PhpBlock",{label:"بلوک کد پی‌اچ‌پی",command:"phpblock",toolbar:"blocks,20"}),CKEDITOR.dialog.add("phpblockDialog",this.path+"dialogs/phpblock.js")}});

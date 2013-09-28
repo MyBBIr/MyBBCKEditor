@@ -1,0 +1,1 @@
+CKEDITOR.plugins.add("code",{icons:"code",init:function(e){e.addCommand("code",new CKEDITOR.dialogCommand("codeDialog")),e.ui.addButton("Code",{label:"بلوک کد",command:"code",toolbar:"blocks,20"}),CKEDITOR.dialog.add("codeDialog",this.path+"dialogs/code.js")}});
